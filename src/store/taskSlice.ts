@@ -9,12 +9,14 @@ const taskSlice = createSlice({
     },
     reducers: {
         addTask(state, action) {
-
-            state.tasks.push({
+            const text = action.payload.trim(); // remove whitespace
+            if (text !== '') { // check if input is not empty
+              state.tasks.push({
                 id: ulid(),
-                text: action.payload,
+                text,
                 completed: false,
-            });
+              });
+            }
         },
         removeTask(state, action) {
             state.tasks = state.tasks.filter(task => task.id !== action.payload)

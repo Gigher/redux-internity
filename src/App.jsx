@@ -24,8 +24,6 @@ function App() {
 
         <InputField text={text} handleInput={setText} handleSubmit={addTodo} />
 
-        
-
         <TasksList />
       </div>
     </div>
