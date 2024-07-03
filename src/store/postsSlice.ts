@@ -1,5 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+
+interface PostProps {
+    id: number;
+    title: string;
+    body: string;
+}
 
 export const fetchPosts = createAsyncThunk(
     'posts/fetchPosts',
@@ -24,7 +30,7 @@ const postsSlice = createSlice({
     },
     reducers: {
         // Reducer to update a post by id
-        updatePost: (state, action) => {
+        updatePost: (state, action: PayloadAction<PostProps>) => {
             const { id, title, body } = action.payload;
             const existingPost = state.posts.find(post => post.id === id);
             if (existingPost) {
@@ -33,7 +39,7 @@ const postsSlice = createSlice({
             }
         },
         // Reducer to remove a post by id
-        removePost: (state, action) => {
+        removePost: (state, action: PayloadAction<number>) => {
             const id = action.payload;
             state.posts = state.posts.filter(post => post.id !== id);
         },

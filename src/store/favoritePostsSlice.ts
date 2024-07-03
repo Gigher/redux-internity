@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 const favoriteSlice = createSlice({
@@ -7,12 +7,12 @@ const favoriteSlice = createSlice({
         favoritePosts: []
     },
     reducers: {
-        addFavoritePost: (state, action) => {
+        addFavoritePost: (state, action: PayloadAction<string>) => {
             state.favoritePosts.push(action.payload);
             console.log('Adding post to favorites:', action.payload);
           },
 
-        removeFavoritePost: (state, action) => {
+        removeFavoritePost: (state, action: PayloadAction<string>) => {
             state.favoritePosts = state.favoritePosts.filter((post) => post.id !== action.payload);
         }
     }

@@ -1,16 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ulid } from "ulid";
 
+type Task = {
+    id: string;
+    text: string;
+    completed: boolean;
+}
+
+type TaskState = {
+    tasks: Task[];
+}
+
+const initialState: TaskState = {
+    tasks: [],
+}
 
 const taskSlice = createSlice({
     name: 'tasks',
-    initialState: {
-        tasks: []
-    },
+    initialState,
     reducers: {
-        addTask(state, action) {
-            const text = action.payload.trim(); // remove whitespace
-            if (text !== '') { // check if input is not empty
+        addTask(state, action: PayloadAction<string>) {
+            const text = action.payload.trim();
+            if (text !== '') {
               state.tasks.push({
                 id: ulid(),
                 text,
@@ -18,10 +29,10 @@ const taskSlice = createSlice({
               });
             }
         },
-        removeTask(state, action) {
+        removeTask(state, action: PayloadAction<string>) {
             state.tasks = state.tasks.filter(task => task.id !== action.payload)
         },
-        toggleTaskCompleted(state, action) {
+        toggleTaskCompleted(state, action: PayloadAction<string>) {
             const toggledTask = state.tasks.find(task => task.id === action.payload);
             if (toggledTask) {
                 toggledTask.completed =! toggledTask.completed;
@@ -30,7 +41,7 @@ const taskSlice = createSlice({
         
         // Sorting task by completing status
         sortTasksByCompleted(state, action) {
-            state.tasks.sort((a, b) => a.completed - b.completed);
+            state.tasks.sort((a, b) => (a.completed === b.completed)? 0 : (a.completed? 1 : -1));
         }
     }
 });
